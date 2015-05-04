@@ -29,5 +29,14 @@ describe('Task') do
       expect(Task.all()).to(eq([newtask]))
     end
   end
-  
+
+  describe('.clear') do
+    it('will clear all tasks from the class variable') do
+      Task.new({:description => "Clean"}).save()
+      Task.clear()
+      expect(Task.all()).to(eq([]))
+    end
+  end
+
+
 end
