@@ -8,15 +8,22 @@ class Task
   end
 
   define_singleton_method(:all) do
-    @@all_tasks
+    returned_tasks = DB.exec("SELECT * FROM tasks;")
+    tasks = []
+    returned_tasks.each() do |task|
+      level = task.fetch("level")
+      description = task.fetch("description")
+      tasks.push(Task.new({:description => description, :level => level}))
+    end
+    tasks
   end
 
   define_method(:save) do
-    @@all_tasks.push(self)
-  end
+    DB.exec("INSERT INTO tasks (description, level) VALUES ('#{@description}', '#{@level}');")
+ end
 
-  define_singleton_method(:clear) do
-    @@all_tasks = []
-  end
-  
+ define_method(:==) do |another_task|
+     self.description().==(another_task.description())
+   end
+
 end

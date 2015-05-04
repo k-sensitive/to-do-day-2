@@ -1,5 +1,14 @@
 require('rspec')
 require('list')
+require('pg')
+
+DB = PG.connect({:dbname => 'to_do_list'})
+
+RSpec.configure do |config|
+  config.after(:each) do
+    DB.exec("DELETE FROM lists *;")
+  end
+end
 
 describe('List') do
   describe('#name') do
@@ -9,32 +18,34 @@ describe('List') do
     end
   end
 
-  describe('#due_date') do
-    it('return the due date of a list') do
-      newlist = List.new({:due_date => "monday"})
-      expect(newlist.due_date()).to(eq("monday"))
+  describe("#id") do
+      it("sets its ID when you save it") do
+        newlist = List.new({:name => "garden", :id => nil})
+        newlist.save()
+        expect(newlist.id()).to(be_an_instance_of(Fixnum))
+      end
     end
-  end
 
   describe('.all') do
-    it('will show all the tasks') do
+    it('will show all the lists') do
       expect(List.all()).to(eq([]))
     end
   end
 
   describe('#save') do
-    it('will save the tasks in the class variable') do
-      newlist = List.new({:name => "garden"})
+    it('will save the lists in the class variable') do
+      newlist = List.new({:name => "garden", :id => nil})
       newlist.save()
       expect(List.all()).to(eq([newlist]))
     end
   end
 
-  describe('.clear') do
-    it('will clear all tasks from the class variable') do
-      List.new({:name => "garden"}).save()
-      List.clear()
-      expect(List.all()).to(eq([]))
+  describe("#==") do
+      it("is the same list if it has the same name") do
+        list1 = List.new({:name => "garden", :id => nil})
+        list2 = List.new({:name => "garden", :id => nil})
+        expect(list1).to(eq(list2))
+      end
     end
-  end
+
 end

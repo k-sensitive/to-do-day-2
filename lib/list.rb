@@ -1,22 +1,31 @@
 class List
-  @@all_lists = []
-  attr_reader(:name,:due_date)
+
+  attr_reader(:name,:id)
 
 
   define_method(:initialize) do |attributes|
     @name = attributes[:name]
-    @due_date = attributes[:due_date]
+    @id = attributes[:id]
   end
 
   define_singleton_method(:all) do
-    @@all_lists
-  end
+    returned_lists = DB.exec("SELECT * FROM lists;")
+    lists = []
+    returned_lists.each() do |list|
+      name = list.fetch("name")
+      id = list.fetch("id").to_i()
+      lists.push(List.new({:name => name, :id => id}))
+    end
+    lists
+    end
 
-  define_method(:save) do
-    @@all_lists.push(self)
-  end
 
-  define_singleton_method(:clear) do
-    @@all_lists = []
-  end
+   define_method(:save) do
+     result = DB.exec("INSERT INTO lists (name) VALUES ('#{@name}') RETURNING id;")
+     @id = result.first().fetch("id").to_i()
+   end
+
+   define_method(:==) do |another_list|
+       self.name().==(another_list.name()).&(self.id().==(another_list.id()))
+     end
 end

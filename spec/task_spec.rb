@@ -1,5 +1,14 @@
 require('rspec')
+require('pg')
 require('task')
+
+DB = PG.connect({:dbname => 'to_do_list'})
+
+RSpec.configure do |config|
+  config.after(:each) do
+    DB.exec("DELETE FROM tasks *;")
+  end
+end
 
 describe('Task') do
   describe('#description') do
@@ -27,14 +36,6 @@ describe('Task') do
       newtask = Task.new({:description => "Clean"})
       newtask.save()
       expect(Task.all()).to(eq([newtask]))
-    end
-  end
-
-  describe('.clear') do
-    it('will clear all tasks from the class variable') do
-      Task.new({:description => "Clean"}).save()
-      Task.clear()
-      expect(Task.all()).to(eq([]))
     end
   end
 
