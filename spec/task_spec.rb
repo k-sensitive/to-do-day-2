@@ -15,4 +15,10 @@ describe('Task') do
       expect(newtask.level()).to(eq("Important"))
     end
   end
+
+  describe('.all') do
+    it('will show all the tasks') do
+      expect(Task.all()).to(eq([]))
+    end
+  end
 end
