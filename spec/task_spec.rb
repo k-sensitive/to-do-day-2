@@ -21,4 +21,13 @@ describe('Task') do
       expect(Task.all()).to(eq([]))
     end
   end
+
+  describe('#save') do
+    it('will save the tasks in the class variable') do
+      newtask = Task.new({:description => "Clean"})
+      newtask.save()
+      expect(Task.all()).to(eq([newtask]))
+    end
+  end
+  
 end
