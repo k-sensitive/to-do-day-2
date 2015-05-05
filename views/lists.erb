@@ -1,0 +1,16 @@
+<h3>Here are your to-do lists:</h3>
+
+<% if list.any?() %>
+
+<ul>
+  <% @lists.each() do |list| %>
+  <li><a href='/list/<%= list.id() %>'><%= @list.name() %></li>
+</ul>
+
+<% else %>
+
+<h5>There are no lists.</h5>
+
+<% end %>
+
+<a href='/'>Home</a>
