@@ -17,7 +17,13 @@ end
 
 post('/lists') do
   name = params.fetch('name')
-  list = List.new({:name => name, :id => nil})
-  list.save()
-  erb(:list_success)
+  @lists = List.new({:name => name, :id => nil})
+  @lists.save()
+  erb(:success)
+end
+
+get('/lists') do
+  @list = List.find(params.fetch('id').to_i())
+  erb(:list)
+
 end

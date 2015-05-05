@@ -10,6 +10,6 @@ describe('adding a new list', {:type => :feature}) do
     click_link('Add New List')
     fill_in('name',:with  => 'Garden')
     click_button('Add List')
-    expect(page).to have_content('Success!')
+    expect(page).to have_content('Success')
   end
 end
