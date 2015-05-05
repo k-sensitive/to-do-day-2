@@ -4,7 +4,8 @@
 
 <ul>
   <% @lists.each() do |list| %>
-  <li><a href='/list/<%= list.id() %>'><%= @list.name() %></li>
+  <li><a href='/lists/<%= list.id() %>'><%= list.name() %></li>
+  <% end %>
 </ul>
 
 <% else %>

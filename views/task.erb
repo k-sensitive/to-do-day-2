@@ -1,0 +1,10 @@
+<h3>Add a new task:</h3>
+
+<form action='/lists/<%= @list.id() %>/task' method='post'>
+  <div class='form-group'>
+    <input id='lists_id' name='lists_id' type='hidden' value='<%= @list.id() %>'>
+    <label for='decription'>Enter in the description of the task:</label>
+    <input id="description" name ="description" type='text'>
+    <button type="submit">Add Task</button>
+  </div>
+</form>
